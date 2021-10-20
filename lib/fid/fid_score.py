@@ -34,7 +34,6 @@ limitations under the License.
 
 import os
 import pathlib
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
 import numpy as np
 import torch
@@ -43,13 +42,7 @@ from torch.nn.functional import adaptive_avg_pool2d
 
 from PIL import Image
 
-try:
-    from tqdm import tqdm
-except ImportError:
-    # If not tqdm is not available, provide a mock version of it
-    def tqdm(x): return x
-
-from inception import InceptionV3
+from .inception import InceptionV3
 
 
 def imread(filename):
@@ -83,7 +76,7 @@ def get_activations(files, model, batch_size=50, dims=2048, cuda=False):
 
     pred_arr = np.empty((len(files), dims))
 
-    for i in tqdm(range(0, len(files), batch_size)):
+    for i in range(0, len(files), batch_size):
         start = i
         end = i + batch_size
 
